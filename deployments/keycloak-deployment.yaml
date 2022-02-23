@@ -132,6 +132,19 @@ spec:
       storage: 1Gi
 ---
 apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: keycloak-mariadb-pv-volume
+spec:
+  storageClassName: manual
+  capacity:
+    storage: 1Gi
+  accessModes:
+    - ReadWriteOnce
+  hostPath:
+    path: "/data"
+---
+apiVersion: v1
 kind: Service
 metadata:
   name: keycloak-mariadb
