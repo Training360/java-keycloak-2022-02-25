@@ -67,7 +67,7 @@ spec:
     protocol: TCP
     nodePort: 30010
   selector:
-    app: keycloak # pod-okat v·logatja le
+    app: keycloak # pod-okat v√°logatja le
   type: NodePort
 ---
 apiVersion: apps/v1
