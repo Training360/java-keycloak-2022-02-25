@@ -1,0 +1,154 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: keycloak
+  labels:
+    app: keycloak
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: keycloak
+  template:
+    metadata:
+      labels:
+        app: keycloak
+    spec:
+      containers:
+      - image: registry.w3pro.net/keycloak:16.1.1
+        name: keycloak
+        env:
+          - name: KEYCLOAK_FRONTEND_URL
+            valueFrom:
+              configMapKeyRef:
+                name: keycloak-config
+                key: KEYCLOAK_FRONTEND_URL
+          - name: DB_VENDOR
+            valueFrom:
+              configMapKeyRef:
+                name: keycloak-config
+                key: DB_VENDOR
+          - name: KEYCLOAK_USER
+            valueFrom:
+              secretKeyRef:
+                name: keycloak-secret
+                key: KEYCLOAK_USER
+          - name: KEYCLOAK_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: keycloak-secret
+                key: KEYCLOAK_PASSWORD
+          - name: DB_ADDR
+            valueFrom:
+              configMapKeyRef:
+                name: keycloak-config
+                key: DB_ADDR
+          - name: DB_USER
+            valueFrom:
+              secretKeyRef:
+                name: keycloak-secret
+                key: MARIADB_USER
+          - name: DB_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: keycloak-secret
+                key: MARIADB_PASSWORD
+--- 
+apiVersion: v1
+kind: Service
+metadata:
+  name: keycloak # Kubernetes DNS ezt adja domain name-nek
+  labels:
+    app: keycloak
+spec:
+  ports:
+  - port: 8080
+    targetPort: 8080 # target port
+    protocol: TCP
+    nodePort: 30010
+  selector:
+    app: keycloak # pod-okat válogatja le
+  type: NodePort
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: keycloak-mariadb
+  labels:
+    app: keycloak-mariadb
+spec:
+  selector:
+    matchLabels:
+      app: keycloak-mariadb
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: keycloak-mariadb
+    spec:
+      containers:
+        - image: registry.w3pro.net/mariadb:10.7.1
+          name: keycloak-mariadb
+          env:
+            - name: MARIADB_ALLOW_EMPTY_ROOT_PASSWORD
+              valueFrom:
+                configMapKeyRef:
+                  name: keycloak-config
+                  key: MARIADB_ALLOW_EMPTY_ROOT_PASSWORD
+            - name: MARIADB_DATABASE
+              valueFrom:
+                configMapKeyRef:
+                  name: keycloak-config
+                  key: MARIADB_DATABASE
+            - name: MARIADB_USER
+              valueFrom:
+                secretKeyRef:
+                  name: keycloak-secret
+                  key: MARIADB_USER
+            - name: MARIADB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: keycloak-secret
+                  key: MARIADB_PASSWORD
+          volumeMounts:
+            - name: keycloak-mariadb-persistent-storage
+              mountPath: /var/lib/mysql
+      volumes:
+        - name: keycloak-mariadb-persistent-storage
+          persistentVolumeClaim:
+            claimName: keycloak-mariadb-pv-claim
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: keycloak-mariadb-pv-claim
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: keycloak-mariadb
+  labels:
+    app: keycloak-mariadb
+spec:
+  ports:
+    - port: 3306
+  selector:
+    app: keycloak-mariadb
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: keycloak-config
+data:
+  KEYCLOAK_FRONTEND_URL: http://keycloak.training:30010/auth/
+  DB_VENDOR: mariadb
+  DB_ADDR: keycloak-mariadb # domain name  
+  MARIADB_DATABASE: keycloak
+  MARIADB_ALLOW_EMPTY_ROOT_PASSWORD: "true"
