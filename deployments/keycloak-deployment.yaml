@@ -125,6 +125,7 @@ kind: PersistentVolumeClaim
 metadata:
   name: keycloak-mariadb-pv-claim
 spec:
+  storageClassName: manual
   accessModes:
     - ReadWriteOnce
   resources:
