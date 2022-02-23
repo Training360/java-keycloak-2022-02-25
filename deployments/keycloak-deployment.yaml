@@ -57,17 +57,17 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: keycloak # Kubernetes DNS ezt adja domain name-nek
+  name: keycloak
   labels:
     app: keycloak
 spec:
   ports:
   - port: 8080
-    targetPort: 8080 # target port
+    targetPort: 8080
     protocol: TCP
     nodePort: 30010
   selector:
-    app: keycloak # pod-okat válogatja le
+    app: keycloak
   type: NodePort
 ---
 apiVersion: apps/v1
@@ -149,6 +149,6 @@ metadata:
 data:
   KEYCLOAK_FRONTEND_URL: http://keycloak.training:30010/auth/
   DB_VENDOR: mariadb
-  DB_ADDR: keycloak-mariadb # domain name  
+  DB_ADDR: keycloak-mariadb
   MARIADB_DATABASE: keycloak
   MARIADB_ALLOW_EMPTY_ROOT_PASSWORD: "true"
