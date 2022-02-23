@@ -1,4 +1,5 @@
 apiVersion: apps/v1
+# v1.0
 kind: Deployment
 metadata:
   name: keycloak
