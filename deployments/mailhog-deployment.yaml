@@ -18,7 +18,7 @@ spec:
         - containerPort: 1025
         - containerPort: 8025
   replicas: 1
-  selector: # pod-okat válogatja le
+  selector:
     matchLabels:
       app: mailhog
 --- 
