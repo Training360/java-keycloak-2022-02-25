@@ -1,0 +1,57 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: openldap
+  labels:
+    app: openldap
+spec:
+  selector:
+    matchLabels:
+      app: openldap
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: openldap
+    spec:
+      containers:
+        - name: openldap
+          image: registry.w3pro.net/openldap:2.6.1
+          env:
+            - name: BITNAMI_DEBUG
+              value: "true"
+            - name: LDAP_ADMIN_USERNAME
+              value: "admin"
+            - name: LDAP_ADMIN_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: openldap-secret
+                  key: LDAP_ADMIN_PASSWORD
+            - name: LDAP_USERS
+              valueFrom:
+                secretKeyRef:
+                  name: openldap-secret
+                  key: LDAP_USERS
+            - name: LDAP_PASSWORDS
+              valueFrom:
+                secretKeyRef:
+                  name: openldap-secret
+                  key: LDAP_PASSWORDS
+          ports:
+            - name: tcp-ldap
+              containerPort: 1389
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: openldap
+  labels:
+    app: openldap
+spec:
+  type: ClusterIP
+  ports:
+    - name: tcp-ldap
+      port: 1389
+      targetPort: tcp-ldap
+  selector:
+    app: openldap

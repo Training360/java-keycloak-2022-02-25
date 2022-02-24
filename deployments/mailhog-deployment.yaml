@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mailhog
+  labels:
+    app: mailhog
+spec:
+  template:
+    metadata:
+      name: mailhog
+      labels:
+        app: mailhog
+    spec:
+      containers:
+      - name: mailhog
+        image: registry.w3pro.net/mailhog:v1.0.1
+        ports:
+        - containerPort: 1025
+        - containerPort: 8025
+  replicas: 1
+  selector: # pod-okat válogatja le
+    matchLabels:
+      app: mailhog
+--- 
+apiVersion: v1
+kind: Service
+metadata:
+  name: mailhog
+  labels:
+    app: mailhog
+spec:
+  ports:
+  - name: smtp
+    port: 1025
+    targetPort: 1025
+    protocol: TCP
+  - name: http
+    port: 8025
+    targetPort: 8025
+    protocol: TCP
+    nodePort: 30013
+  selector:
+    app: mailhog 
+  type: NodePort
