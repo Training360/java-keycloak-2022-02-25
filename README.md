@@ -67,8 +67,24 @@ curl -s --header "Authorization: bearer eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwi
 
 # Account console
 
+# Törölni saját magát
+
+# Password policy
+
+# User locale
+
+# Saját attribútum
+
+# Consent
+
+Adatok jóváhagyása
+
+# Terms and conditions
+
 # E-mailek kezelése
 
 ```shell
 kubectl apply -f https://raw.githubusercontent.com/Training360/java-keycloak-2022-02-25/master/deployments/mailhog-deployment.yaml
 ```
+
+Elérhető `http://192.168.70.80:30013/` címen
