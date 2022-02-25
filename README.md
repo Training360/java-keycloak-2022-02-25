@@ -33,5 +33,16 @@ Név: `employees`
 
 ## Client létrehozása
 
-Id: `employees-ui`
-URL: `http://employees-ui.training:30011`
+* Id: `employees-ui`
+* URL: `http://employees-ui.training:30011`
+* Admin URL törlése
+
+## Felhasználó létrehozás
+
+* `johndoe`, `johndoe@localhost`, e-mail ellenőrizve
+* Jelszó beállítás, nem temporary jelszó
+
+## Szerepkör létrehozás
+
+* `employees_user`
+* Felhasználónak adjuk oda a szerepkört
