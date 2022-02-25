@@ -88,3 +88,12 @@ kubectl apply -f https://raw.githubusercontent.com/Training360/java-keycloak-202
 ```
 
 Elérhető `http://192.168.70.80:30013/` címen
+
+# GitHub
+
+# OpenLDAP
+
+```shell
+kubectl apply -f https://raw.githubusercontent.com/Training360/java-keycloak-2022-02-25/master/deployments/openldap-secret.yaml
+kubectl apply -f https://raw.githubusercontent.com/Training360/java-keycloak-2022-02-25/master/deployments/openldap-deployment.yaml
+```
