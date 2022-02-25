@@ -23,3 +23,7 @@ kubectl apply -f https://raw.githubusercontent.com/Training360/java-keycloak-202
 
 A Keycloak elérhető a `http://keycloak.training:30010` címen.
 
+A frontend címe: `http://employees-ui.training:30011`
+
+A backend címe: `http://employees.training:30012`
+
