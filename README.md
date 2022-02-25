@@ -97,3 +97,12 @@ Elérhető `http://192.168.70.80:30013/` címen
 kubectl apply -f https://raw.githubusercontent.com/Training360/java-keycloak-2022-02-25/master/deployments/openldap-secret.yaml
 kubectl apply -f https://raw.githubusercontent.com/Training360/java-keycloak-2022-02-25/master/deployments/openldap-deployment.yaml
 ```
+
+```
+Vendor: other
+User object class: inetOrgPerson
+Connection url: ldap://openldap:1389
+Users DN: ou=users,dc=example,dc=org
+Bind DN: cn=admin,dc=example,dc=org
+Bind credential: admin
+```
