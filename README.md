@@ -106,3 +106,33 @@ Users DN: ou=users,dc=example,dc=org
 Bind DN: cn=admin,dc=example,dc=org
 Bind credential: admin
 ```
+
+# DB hozzáférés
+
+# Events
+
+* Log
+* DB
+
+# REST API
+
+https://www.keycloak.org/docs-api/15.0/rest-api/
+
+```shell
+curl -s --data "grant_type=password&scope=openid&client_id=admin-cli&username=root&password=root" http://keycloak.training:30010/auth/realms/master/protocol/openid-connect/token
+curl --header "Accept: application/json" --header "Authorization: bearer eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJWbXBfVGNPWWctUTBnbHV3VUFPVXlGQW4wekhDTHBlWi13Y2QxNHRfdGpnIn0.eyJleHAiOjE2NDU3MTA5MTMsImlhdCI6MTY0NTcxMDg1MywianRpIjoiMjE3NjkzYWQtNzQzYi00OWUxLTk3YzctMmUzOGIwZmZhYWRjIiwiaXNzIjoiaHR0cDovL2tleWNsb2FrLnRyYWluaW5nOjMwMDEwL2F1dGgvcmVhbG1zL21hc3RlciIsInN1YiI6IjZmNTQ0YzAwLTVkMDMtNDRlOC04MTQzLTAyY2Q0NzA5MTFkOCIsInR5cCI6IkJlYXJlciIsImF6cCI6ImFkbWluLWNsaSIsInNlc3Npb25fc3RhdGUiOiIzNTAyODRkMy0wMmM5LTQ5ZGMtYWU2Ny03NTEwYmU1OWM4NmEiLCJhY3IiOiIxIiwic2NvcGUiOiJvcGVuaWQgZW1haWwgcHJvZmlsZSIsInNpZCI6IjM1MDI4NGQzLTAyYzktNDlkYy1hZTY3LTc1MTBiZTU5Yzg2YSIsImVtYWlsX3ZlcmlmaWVkIjpmYWxzZSwicHJlZmVycmVkX3VzZXJuYW1lIjoicm9vdCIsImVtYWlsIjoia2V5Y2xvYWtAbG9jYWxob3N0In0.CtipTgWP_RzhsYdVD2IHKZ4OyDaPu_YTtFVl5hhk6QBIGWil_6oQ0suSsLifVBjfcqd5euO5zukGnUm_z00MpsdLndu6ak84GBL_WSeWT6beGiDxH6OKqhZjOAo7tY4c2hblOJ5aOYb5zUfdMD7mVqHQslL4wJVBaJnuSeSLc2-V4H3ecUszFGSCbHMdf5Ejo3ovxNd-nxbaNKwAKAYwVuwvLlY9St9byesfPVTelnzXtdxuCgEmB9p2NFsZEX7iumfQ_wWvU2rFQcF_ekme2eCg5ClwYQs219uDRDTTN1sww0CkJ7N800XqiIl8mXobSWIBDO9oZbTMfUtxDLm9Pg" http://keycloak.training:30010/auth/admin/realms/employees/users
+```
+
+Postmannel
+
+# Admin CLI
+
+```shell
+kubectl exec -it pod/keycloak-7b5fb99f-zpbj6 -- /opt/jboss/keycloak/bin/kcadm.sh config credentials --server http://127.0.0.1:8080/auth --realm master get users --user root
+
+kubectl exec -it pod/keycloak-7b5fb99f-zpbj6 -- /opt/jboss/keycloak/bin/kcadm.sh get users -r employees
+kubectl exec -it pod/keycloak-7b5fb99f-zpbj6 -- /opt/jboss/keycloak/bin/kcadm.sh get events -r employees
+
+kubectl exec -it pod/keycloak-7b5fb99f-zpbj6 -- /opt/jboss/keycloak/bin/kcadm.sh create users -s username=johnsmith -s enabled=true -r employees
+kubectl exec -it pod/keycloak-7b5fb99f-zpbj6 -- /opt/jboss/keycloak/bin/kcadm.sh set-password --username johnsmith --new-password johnsmith  -r employees
+```
