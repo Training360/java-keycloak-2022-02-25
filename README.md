@@ -20,3 +20,6 @@ kubectl apply -f https://raw.githubusercontent.com/Training360/java-keycloak-202
 # Employees
 kubectl apply -f https://raw.githubusercontent.com/Training360/java-keycloak-2022-02-25/master/deployments/employees-deployment.yaml
 ```
+
+A Keycloak elérhető a `http://keycloak.training:30010` címen.
+
