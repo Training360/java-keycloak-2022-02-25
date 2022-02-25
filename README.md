@@ -27,3 +27,11 @@ A frontend címe: `http://employees-ui.training:30011`
 
 A backend címe: `http://employees.training:30012`
 
+## Realm létrehozás
+
+Név: `employees`
+
+## Client létrehozása
+
+Id: `employees-ui`
+URL: `http://employees-ui.training:30011`
