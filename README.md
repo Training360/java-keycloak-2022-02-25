@@ -46,3 +46,9 @@ Név: `employees`
 
 * `employees_user`
 * Felhasználónak adjuk oda a szerepkört
+
+## Token lekérése
+
+```
+curl -s --data "grant_type=password&scope=openid&client_id=employees-ui&username=johndoe&password=johndoe" http://keycloak.training:30010/auth/realms/employees/protocol/openid-connect/token
+```
